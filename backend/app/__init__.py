@@ -6,6 +6,7 @@
 from flask import Flask
 from flask.views import MethodView
 from .Users.resources import users_blueprint
+from .Categories.resources import categories_blueprint
 
 
 class HelloWorld(MethodView):
@@ -34,5 +35,6 @@ def create_app():
     
     
     app.register_blueprint(users_blueprint)
+    app.register_blueprint(categories_blueprint)
     
     return app
