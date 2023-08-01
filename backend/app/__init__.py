@@ -5,6 +5,7 @@
 
 from flask import Flask
 from flask.views import MethodView
+from .Users.resources import users_blueprint
 
 
 class HelloWorld(MethodView):
@@ -30,5 +31,8 @@ def create_app():
     
 
     app.add_url_rule('/', view_func=hello_word)
+    
+    
+    app.register_blueprint(users_blueprint)
     
     return app
