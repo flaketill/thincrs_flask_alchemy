@@ -3,13 +3,6 @@
 # -*- encoding: UTF-8 -*
 
 
-import sys
-from flask import Flask
+from app import create_app # pylint: disable=import-self
 
-
-app = Flask(__name__)
-
-
-@app.route('/')
-def hello():
-    return 'Hello, World!'
+app = create_app()
