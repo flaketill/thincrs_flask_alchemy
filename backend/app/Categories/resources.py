@@ -23,9 +23,29 @@ categories = [
 
 
 class Categories(MethodView):
-    def get(self):
-        return [{ 'name': 'armando'},
-                 {'name': 'test'}]
+    def get_category_by_id(self,category_id):
+        return next((category for category in categories if category['id'] == category_id), None)
+
+
+    def get(self,category_id):
+        category = self.get_category_by_id(category_id)
+
+        if category:
+            return jsonify(category)
+
+        return jsonify({'error': 'Category not found'}), 404
+
+
+    def delete(self, category_id):
+        # Find index of item with id 3
+        index_to_remove = next(i for i, item in enumerate(categories) if item['id'] == category_id)
+
+        # Remove item at index
+        del categories[index_to_remove]
+
+        logging.debug(f"{categories}")
+
+        return jsonify({})
 
 
 class CategoriesList(MethodView):
@@ -35,9 +55,27 @@ class CategoriesList(MethodView):
         return jsonify(categories)
 
 
-class CategoriesID(MethodView):
-    def get(self):
-        pass
+class CategoriesItem(MethodView):
+    def create_category(self,new_category):
+        categories.append(new_category)
+        return new_category['id']
+    
+
+    def post(self):
+        new_category = request.json
+
+        logging.debug(f'{new_category}')
+
+        if new_category.get('id') is None:
+            logging.debug(f"{'message': 'Error: missing category id'}")
+            return jsonify({'error': 'Missing category id'}), 400
+
+        if new_category.get('name') is None:
+            logging.debug(f"{'message': 'Error: missing category name'}")
+            return jsonify({'error': 'Missing category name'}), 400            
+
+        new_category_id = self.create_category(new_category)
+        return jsonify({'category_id': new_category_id}), 201
 
 
 categories_blueprint.add_url_rule(
@@ -47,10 +85,10 @@ categories_blueprint.add_url_rule(
 
 categories_blueprint.add_url_rule(
                             "categories",
-                            view_func=Categories.as_view("categories")
+                            view_func=CategoriesItem.as_view("category_id")
 )
 
 categories_blueprint.add_url_rule(
-                            "/categories/<category_id>",
-                            view_func=CategoriesID.as_view("categories_id")
+                            "/categories/<int:category_id>",
+                            view_func=Categories.as_view("categories")
 )
