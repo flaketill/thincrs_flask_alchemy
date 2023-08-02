@@ -21,14 +21,26 @@ categories = [
     {'id': 100, 'name': 'Category 100'},
 ]
 
+class CategoriesHandle(object):
+    """Class that handles categories."""
+    def __init__(self, arg):
+        super(ClassName, self).__init__()
+        self.arg = arg
 
-class Categories(MethodView):
-    def get_category_by_id(self,category_id):
+
+    def get_category_by_id(category_id):
         return next((category for category in categories if category['id'] == category_id), None)
 
+    
+    def create_category(new_category):
+        categories.append(new_category)
+        return new_category['id']
+        
 
+
+class Categories(MethodView):
     def get(self,category_id):
-        category = self.get_category_by_id(category_id)
+        category = CategoriesHandle.get_category_by_id(category_id)
 
         if category:
             return jsonify(category)
@@ -56,11 +68,6 @@ class CategoriesList(MethodView):
 
 
 class CategoriesItem(MethodView):
-    def create_category(self,new_category):
-        categories.append(new_category)
-        return new_category['id']
-    
-
     def post(self):
         new_category = request.json
 
@@ -74,7 +81,7 @@ class CategoriesItem(MethodView):
             logging.debug(f"{'message': 'Error: missing category name'}")
             return jsonify({'error': 'Missing category name'}), 400            
 
-        new_category_id = self.create_category(new_category)
+        new_category_id = CategoriesHandle.create_category(new_category)
         return jsonify({'category_id': new_category_id}), 201
 
 
