@@ -9,6 +9,7 @@ from .Users.resources import users_blueprint
 from .Categories.resources import categories_blueprint
 from .Config.settings import SQLALCHEMY_DATABASE_URI
 from .Database import db
+from .Categories.models import Category
 
 
 class HelloWorld(MethodView):
@@ -45,6 +46,9 @@ def create_app():
     db.init_app(app)
 
     with app.app_context():
+        category = Category(name="Test 2")
+        db.session.add(category)
+        db.session.commit()
         db.create_all()
     
     return app
