@@ -22,6 +22,7 @@ categories = [
     {'id': 100, 'name': 'Category 100'},
 ]
 
+
 class CategoriesHandle(object):
     """Class that handles categories."""
     def __init__(self, arg):
@@ -37,7 +38,6 @@ class CategoriesHandle(object):
         categories.append(new_category)
         return new_category['id']
         
-
 
 class Categories(MethodView):
     def __init__(self, model):
