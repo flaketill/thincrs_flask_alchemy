@@ -4,10 +4,22 @@
 
 
 from flask.views import MethodView
-from flask import Blueprint, request
+from flask import Blueprint, request, jsonify
+import logging
 
 
+# Configure the logger
+logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
 categories_blueprint = Blueprint("Categories_blueprint", __name__, url_prefix="/api/")
+
+
+categories = [
+    {'id': 1, 'name': 'Category 1'},
+    {'id': 2, 'name': 'Category 2'},
+    {'id': 3, 'name': 'Category 3'},
+    {'id': 10, 'name': 'Category 10'},
+    {'id': 100, 'name': 'Category 100'},
+]
 
 
 class Categories(MethodView):
@@ -18,8 +30,9 @@ class Categories(MethodView):
 
 class CategoriesList(MethodView):
     def get(self):
-        return [{ 'name': 'armando'},
-                 {'name': 'test'}]
+        """Get all Categories
+        """
+        return jsonify(categories)
 
 
 class CategoriesID(MethodView):
