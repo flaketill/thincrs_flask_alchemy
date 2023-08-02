@@ -6,10 +6,11 @@
 from flask.views import MethodView
 from flask import Blueprint, request, jsonify
 import logging
-
+from .models import Category
 
 # Configure the logger
 logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
+# Operations on categories
 categories_blueprint = Blueprint("Categories_blueprint", __name__, url_prefix="/api/")
 
 
@@ -39,6 +40,10 @@ class CategoriesHandle(object):
 
 
 class Categories(MethodView):
+    def __init__(self, model):
+        self.model = model
+
+    
     def get(self,category_id):
         category = CategoriesHandle.get_category_by_id(category_id)
 
@@ -49,7 +54,7 @@ class Categories(MethodView):
 
 
     def delete(self, category_id):
-        # Find index of item with id 3
+        # Find index of item with category id
         index_to_remove = next(i for i, item in enumerate(categories) if item['id'] == category_id)
 
         # Remove item at index
@@ -57,10 +62,13 @@ class Categories(MethodView):
 
         logging.debug(f"{categories}")
 
-        return jsonify({})
+        return jsonify({}), 204
 
 
 class CategoriesList(MethodView):
+    def __init__(self, model):
+        self.model = model        
+
     def get(self):
         """Get all Categories
         """
@@ -68,6 +76,10 @@ class CategoriesList(MethodView):
 
 
 class CategoriesItem(MethodView):
+    def __init__(self, model):
+        self.model = model    
+    
+
     def post(self):
         new_category = request.json
 
@@ -85,17 +97,17 @@ class CategoriesItem(MethodView):
         return jsonify({'category_id': new_category_id}), 201
 
 
-categories_blueprint.add_url_rule(
-    "categories",
-    view_func=CategoriesList.as_view("Categories_list")
-)
+def register_api(app, model, name):
+    category_list = CategoriesList.as_view(f"{name}_list", model)    
+    category = Categories.as_view(f"{name}", model)
+    category_item = CategoriesItem.as_view(f"{name}_item", model)
 
-categories_blueprint.add_url_rule(
-                            "categories",
-                            view_func=CategoriesItem.as_view("category_id")
-)
+    
+    app.add_url_rule(f"/{name}", view_func=category_list)
+    app.add_url_rule(f"/{name}/", view_func=category_list)
+    app.add_url_rule(f"/{name}/<int:category_id>", view_func=category)    
+    app.add_url_rule(f"/{name}", view_func=category_item)
+    app.add_url_rule(f"/{name}/", view_func=category_item)
 
-categories_blueprint.add_url_rule(
-                            "/categories/<int:category_id>",
-                            view_func=Categories.as_view("categories")
-)
+
+register_api(categories_blueprint, Category, "categories")
