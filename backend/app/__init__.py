@@ -7,6 +7,8 @@ from flask import Flask
 from flask.views import MethodView
 from .Users.resources import users_blueprint
 from .Categories.resources import categories_blueprint
+from .Config.settings import SQLALCHEMY_DATABASE_URI
+from .Database import db
 
 
 class HelloWorld(MethodView):
@@ -37,5 +39,12 @@ def create_app():
     
     app.register_blueprint(users_blueprint)
     app.register_blueprint(categories_blueprint)
+
+
+    app.config['SQLALCHEMY_DATABASE_URI'] = SQLALCHEMY_DATABASE_URI
+    db.init_app(app)
+
+    with app.app_context():
+        db.create_all()
     
     return app
