@@ -12,6 +12,12 @@ from .Database import db
 from .Categories.models import Category
 
 
+from flask_migrate import Migrate
+
+
+migrate = Migrate()
+
+
 class HelloWorld(MethodView):
     """ Hello world class example with Methods: POST, GET, PUT/PATCH, DELETE
 
@@ -49,15 +55,14 @@ def create_app():
     app.register_blueprint(categories_blueprint)
 
 
-    app.config['SQLALCHEMY_DATABASE_URI'] = SQLALCHEMY_DATABASE_URI
+    app.config.from_pyfile('../settings.py')
     db.init_app(app)
 
     with app.app_context():
-        category = Category(name="Test 2")
-        db.session.add(category)
-        db.session.commit()
-        db.create_all()
-    
+        migrate.init_app(app, db)
+
+
     return app
     
+
     
