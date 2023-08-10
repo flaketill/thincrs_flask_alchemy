@@ -16,7 +16,7 @@ class UsersList(MethodView):
                  {'name': 'test'}]
 
 
-class Users(MethodView):
+class UsersItem(MethodView):
     def post(self):
         data = request.get_json()
 
@@ -41,5 +41,5 @@ users_blueprint.add_url_rule(
 
 users_blueprint.add_url_rule(
                             "users",
-                            view_func=Users.as_view("users")
+                            view_func=UsersItem.as_view("users")
 )

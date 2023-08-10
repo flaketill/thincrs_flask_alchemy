@@ -1,8 +1,8 @@
-from app.Database import db
+from app.Database import db, BaseModelMixin
 
 
 # Creating the Users for inserting data into the database
-class Users(db.Model):
+class Users(db.Model, BaseModelMixin):
     id = db.Column(db.Integer, primary_key=True)
     first_name = db.Column(db.String(80), nullable=False)
     last_name = db.Column(db.String(80))
@@ -29,3 +29,4 @@ class Users(db.Model):
     @classmethod
     def find_all_by_rol_id(cls, rol_id):
         return cls.query.filter_by(rol_id = rol_id).all()
+        
