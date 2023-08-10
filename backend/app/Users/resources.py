@@ -5,6 +5,7 @@
 
 from flask.views import MethodView
 from flask import Blueprint, request
+from app.Users.models import Users
 
 
 users_blueprint = Blueprint("users_blueprint", __name__, url_prefix="/api/")
@@ -16,7 +17,7 @@ class UsersList(MethodView):
                  {'name': 'test'}]
 
 
-class UsersItem(MethodView):
+class UsersResources(MethodView):
     def post(self):
         data = request.get_json()
 
@@ -41,6 +42,6 @@ users_blueprint.add_url_rule(
 
 users_blueprint.add_url_rule(
                             "users",
-                            view_func=UsersItem.as_view("users")
+                            view_func=UsersResources.as_view("users")
 )
 
