@@ -1,4 +1,5 @@
 from app.Database import db, BaseModelMixin
+from app.Roles.models import Roles
 
 
 # Creating the Users for inserting data into the database

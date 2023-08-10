@@ -1,8 +1,6 @@
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import MetaData
 from datetime import datetime
-from settings import SQLALCHEMY_DATABASE_URI
-#from flask_marshmallow import Marshmallow
 from flask import current_app as app
 
 
@@ -24,10 +22,6 @@ metadata = MetaData(naming_convention=convention)
 
 # create the extension
 db = SQLAlchemy(metadata=metadata)
-
-# Set up your SQLAlchemy engine and session
-engine = create_engine(SQLALCHEMY_DATABASE_URI)
-Session = sessionmaker(bind=engine, autoflush=True)
 
 
 class BaseModelMixin:
