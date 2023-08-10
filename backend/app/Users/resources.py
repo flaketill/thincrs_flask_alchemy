@@ -43,3 +43,4 @@ users_blueprint.add_url_rule(
                             "users",
                             view_func=UsersItem.as_view("users")
 )
+
