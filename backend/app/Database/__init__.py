@@ -1,7 +1,7 @@
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import MetaData
 from datetime import datetime
-from ..Config.settings import SQLALCHEMY_DATABASE_URI
+from settings import SQLALCHEMY_DATABASE_URI
 #from flask_marshmallow import Marshmallow
 from flask import current_app as app
 

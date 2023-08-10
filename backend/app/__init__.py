@@ -7,7 +7,7 @@ from flask import Flask
 from flask.views import MethodView
 from .Users.resources import users_blueprint
 from .Categories.resources import categories_blueprint
-from .Config.settings import SQLALCHEMY_DATABASE_URI
+from settings import SQLALCHEMY_DATABASE_URI
 from .Database import db
 from .Categories.models import Category
 
