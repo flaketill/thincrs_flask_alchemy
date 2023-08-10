@@ -22,6 +22,20 @@ class Users(db.Model, BaseModelMixin):
         return f'User({self.email})'
     
 
+    def __str__(self):
+        return f'{self.name}'
+
+
+    def to_json(self):
+        return {
+            "id": self.id,
+            "first_name": self.first_name,
+            "last_name": self.last_name,
+            "email": self.email,
+            "rol_id": self.rol_id,
+        }   
+    
+
     @classmethod
     def find_first_by_email(cls, email):
         return cls.query.filter_by(email = email).first()
@@ -30,4 +44,18 @@ class Users(db.Model, BaseModelMixin):
     @classmethod
     def find_all_by_rol_id(cls, rol_id):
         return cls.query.filter_by(rol_id = rol_id).all()
+
+
+    @classmethod
+    def return_all(cls):
+        def to_json(user):
+            return {
+                "id": user.id,
+                "first_name": user.first_name,
+                "last_name": user.last_name,
+                "email": user.email,
+                "rol_id": user.rol_id,
+            }
+        return {'users': [to_json(user) for user in Users.query.all()]}
+
         
