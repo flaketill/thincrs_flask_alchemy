@@ -21,7 +21,7 @@ class UsersItem(MethodView):
         logging.debug(f'{user_id}')
         user = Users.get_by_id(user_id)
 
-        if user:            
+        if user:
             json_data = user.to_json()
             return jsonify(json_data), 200
 
@@ -39,19 +39,36 @@ class UsersList(MethodView):
 
 class UsersResources(MethodView):
     def post(self):
+
+        if not request.json:
+            return { 'message': 'You have not entered payload correctly'}, 400
+
         data = request.get_json()
 
+        first_name = data.get('first_name')
+        last_name = data.get('last_name')
         email = data.get('email')
-        username = data.get('username')
+        role_id = int(data.get('role_id'))
+
+        if first_name is None:
+            return { 'message': 'You have not entered your first_name correctly'}, 400
 
         if email is None:
             return { 'message': 'You have not entered your email address correctly'}, 400
 
-        if username is None:
-            return { 'message': 'You have not entered your username correctly'}, 400
+        if role_id is None:
+            return { 'message': 'You have not entered the role id correctly'}, 400
 
 
-        return { 'message': 'Bienvenido! :D'}
+        user = Users(first_name=first_name, last_name=last_name, email=email, rol_id=role_id)
+        user.save()
+
+        
+        if user:
+            json_data = user.to_json()
+            return jsonify(json_data), 200
+
+        return { 'message': 'error'}, 400
 
 
 users_blueprint.add_url_rule(
@@ -70,5 +87,3 @@ users_blueprint.add_url_rule(
                             "users/<int:user_id>",
                             view_func=UsersItem.as_view("user")
 )
-
-

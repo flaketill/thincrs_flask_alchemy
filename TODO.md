@@ -4,7 +4,7 @@
 
 RESTFul CRUD APIs using Flask:
 
-- [ ] Create (Adding a new User)
+- [X] Create (Adding a new User)
     * Data required:
         * First Name
         * Email address
