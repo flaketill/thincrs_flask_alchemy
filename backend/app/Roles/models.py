@@ -26,5 +26,6 @@ class Roles(db.Model, BaseModelMixin):
                 'name': rol.name
             }
         return {'roles': [to_json(rol) for rol in Roles.query.all()]}
+        
 
                 
