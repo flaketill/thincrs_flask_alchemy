@@ -1,4 +1,5 @@
 import os
+"""Flask APP configuration."""
 from dotenv import load_dotenv
 from flask import current_app
 from flask_sqlalchemy import SQLAlchemy

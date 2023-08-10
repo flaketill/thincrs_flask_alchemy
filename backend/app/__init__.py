@@ -13,9 +13,11 @@ from .Categories.models import Category
 
 
 from flask_migrate import Migrate
+from os import environ, path
 
 
 migrate = Migrate()
+basedir = path.abspath(path.dirname(__file__))
 
 
 class HelloWorld(MethodView):
@@ -55,7 +57,9 @@ def create_app():
     app.register_blueprint(categories_blueprint)
 
 
-    app.config.from_pyfile('../settings.py')
+    # Configuring Flask From Class Objects
+    # Specificy a `../settings.py` file containing project settings
+    app.config.from_pyfile(path.join(basedir, '../settings.py'))
     db.init_app(app)
 
     with app.app_context():

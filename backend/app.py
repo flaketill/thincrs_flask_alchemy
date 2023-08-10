@@ -7,5 +7,10 @@ from dotenv import load_dotenv
 from app import create_app # pylint: disable=import-self
 
 
-load_dotenv('.env') #the path to your .env file (or any other file of environment variables you want to load)
+# Specificy a `.env` file containing key/value config values
+basedir = path.abspath(path.dirname(__file__))
+load_dotenv(path.join(basedir, ".env"))
+
+
 app = create_app()
+
