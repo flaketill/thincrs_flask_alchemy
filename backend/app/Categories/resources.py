@@ -8,6 +8,7 @@ from flask import Blueprint, request, jsonify
 import logging
 from .models import Category
 
+
 # Configure the logger
 logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
 # Operations on categories
@@ -111,3 +112,4 @@ def register_api(app, model, name):
 
 
 register_api(categories_blueprint, Category, "categories")
+

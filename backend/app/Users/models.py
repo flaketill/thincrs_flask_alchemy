@@ -28,4 +28,4 @@ class Users(db.Model):
 
     @classmethod
     def find_all_by_rol_id(cls, rol_id):
-        return cls.query.filter_by(rol_id = rol_id).all()        
+        return cls.query.filter_by(rol_id = rol_id).all()

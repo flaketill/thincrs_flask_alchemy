@@ -13,6 +13,13 @@ from .Categories.models import Category
 
 
 class HelloWorld(MethodView):
+    """ Hello world class example with Methods: POST, GET, PUT/PATCH, DELETE
+
+        C -> Create -> POST
+        R -> Read -> GET
+        U -> Update -> PUT / PATCH
+        D -> Delete -> DELETE
+    """
     def get(self):
     	return { 'message': 'Hey there! Hello World :)'}
 
@@ -52,3 +59,4 @@ def create_app():
         db.create_all()
     
     return app
+    
