@@ -10,6 +10,7 @@ from .Categories.resources import categories_blueprint
 from settings import SQLALCHEMY_DATABASE_URI
 from .Database import db
 from .Categories.models import Category
+from app.Roles.resources import roles_blueprint
 
 
 from flask_migrate import Migrate
@@ -54,6 +55,7 @@ def create_app():
     
     
     app.register_blueprint(users_blueprint)
+    app.register_blueprint(roles_blueprint)
     app.register_blueprint(categories_blueprint)
 
 

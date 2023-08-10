@@ -21,6 +21,5 @@ class RolesList(MethodView):
 
 roles_blueprint.add_url_rule(
                             "roles",
-                            view_func=UsersList.as_view("roles_list")
+                            view_func=RolesList.as_view("roles_list")
 )
-
