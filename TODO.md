@@ -6,10 +6,9 @@ RESTFul CRUD APIs using Flask:
 
 - [ ] Create (Adding a new User)
     * Data required:
-        * Name
+        * First Name
         * Email address
-        * Password
-- [ ] Retrieve User
+- [X] Retrieve User
     * Get a user by their ID
     * Get all users
 - [ ] Updating an User

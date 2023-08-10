@@ -21,8 +21,7 @@ class UsersItem(MethodView):
         logging.debug(f'{user_id}')
         user = Users.get_by_id(user_id)
 
-        if user:
-            #json_data = json.dumps(user.to_json())
+        if user:            
             json_data = user.to_json()
             return jsonify(json_data), 200
 
@@ -32,8 +31,7 @@ class UsersItem(MethodView):
 class UsersList(MethodView):
     def get(self):
         """Return all users, ordered by date.
-        """
-        #users = Users.query.filter_by(deleted=False).order_by(Users.created.desc()).all()
+        """        
         users = Users.return_all()
         logging.debug(f'{users}')
         return jsonify(users), 200
@@ -72,4 +70,5 @@ users_blueprint.add_url_rule(
                             "users/<int:user_id>",
                             view_func=UsersItem.as_view("user")
 )
+
 
