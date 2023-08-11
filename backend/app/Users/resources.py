@@ -4,7 +4,7 @@
 
 
 from flask.views import MethodView
-from flask import Blueprint, request, jsonify
+from flask import Blueprint, request, jsonify, abort
 from app.Users.models import Users
 import logging
 import json
@@ -26,21 +26,33 @@ class UsersDelete(MethodView):
                 if user_id is None:
                     return { 'message': 'You have not entered the user id correctly'}, 400
 
+
+                if type(user_id) is not int:
+                    abort(400)
+
+                
                 logging.debug(f"User to delete with id: {user_id}")
 
+                
                 # Find item with user id
                 user = Users.get_by_id(user_id)
 
+                
                 logging.debug(f"{user}")
 
-                if not user:
-                    return { 'message': 'user id no exists'}, 400
+                
+                if not user:                    
+                    logging.debug(f" User ID: {user_id} does not exist or is deleted!")
+                    abort(404)
 
+                
                 if user:
                     logging.debug(f"{user}")
                     user.delete()
 
+                
                 return jsonify({}), 204
+            
             
             except HTTPException as e:
                 raise e
@@ -48,6 +60,9 @@ class UsersDelete(MethodView):
 
 class UsersItem(MethodView):
     def get(self,user_id):
+
+        if type(user_id) is not int:
+            abort(400)
 
         logging.debug(f'{user_id}')
         user = Users.get_by_id(user_id)
@@ -64,10 +79,17 @@ class UsersItem(MethodView):
     def patch(self, user_id):
         if not request.json:
             return { 'error': {'message': 'The payload is not valid JSON', "status":"failure"}}, 400
+
+
+        if 'user_id' not in request.json:
+            abort(400)
         
 
         if user_id is None:
             return { 'message': 'You have not entered the user id correctly'}, 400
+
+        if type(user_id) is not int:
+            abort(400)
 
 
         user = Users.get_by_id(user_id)
@@ -107,7 +129,7 @@ class UsersItem(MethodView):
 class UsersList(MethodView):
     def get(self):
         """Return all users, ordered by date.
-        """        
+        """  
         users = Users.return_all()
         logging.debug(f'{users}')
         return jsonify(users), 200
