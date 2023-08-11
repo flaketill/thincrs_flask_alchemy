@@ -10,9 +10,40 @@ import logging
 import json
 
 
+# handle exceptions in Python Flask
+from werkzeug.exceptions import HTTPException
+
 # Configure the logger
 logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
 users_blueprint = Blueprint("users_blueprint", __name__, url_prefix="/api/")
+
+
+class UsersDelete(MethodView):
+    def delete(self, user_id):
+            """Delete a user by id."""
+            try:
+
+                if user_id is None:
+                    return { 'message': 'You have not entered the user id correctly'}, 400
+
+                logging.debug(f"User to delete with id: {user_id}")
+
+                # Find item with user id
+                user = Users.get_by_id(user_id)
+
+                logging.debug(f"{user}")
+
+                if not user:
+                    return { 'message': 'user id no exists'}, 400
+
+                if user:
+                    logging.debug(f"{user}")
+                    user.delete()
+
+                return jsonify({}), 204
+            
+            except HTTPException as e:
+                raise e
 
 
 class UsersItem(MethodView):
@@ -132,3 +163,7 @@ users_blueprint.add_url_rule(
                             "users/<int:user_id>",
                             view_func=UsersItem.as_view("user")
 )
+
+users_delete = UsersDelete.as_view("users_delete")
+users_blueprint.add_url_rule('users/<int:user_id>', view_func=users_delete)
+

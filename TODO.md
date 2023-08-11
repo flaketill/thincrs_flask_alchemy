@@ -13,5 +13,5 @@ RESTFul CRUD APIs using Flask:
     * Get all users
 - [X] Updating an User
     * Update a user's first name, email address, last_name or role id
-- [ ] Deleting an User
+- [X] Deleting an User
     * Delete a user by their ID

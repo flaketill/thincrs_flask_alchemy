@@ -23,7 +23,7 @@ class Users(db.Model, BaseModelMixin):
     
 
     def __str__(self):
-        return f'{self.name}'
+        return f'{self.first_name}'
 
 
     def to_json(self):
