@@ -79,15 +79,12 @@ class UsersItem(MethodView):
     def patch(self, user_id):
         if not request.json:
             return { 'error': {'message': 'The payload is not valid JSON', "status":"failure"}}, 400
-
-
-        if 'user_id' not in request.json:
-            abort(400)
         
 
         if user_id is None:
             return { 'message': 'You have not entered the user id correctly'}, 400
 
+        
         if type(user_id) is not int:
             abort(400)
 
