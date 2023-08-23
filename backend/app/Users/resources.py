@@ -161,7 +161,7 @@ class UsersResources(MethodView):
         
         if user:
             json_data = user.to_json()
-            return jsonify(json_data), 200
+            return jsonify(json_data), 201
 
         return { 'message': 'error'}, 400
 
